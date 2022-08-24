@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddTalkVC" customModule="TodoTalk" customModuleProvider="target">
+            <connections>
+                <outlet property="saveButton" destination="yuH-qP-xCt" id="MyP-nC-BEa"/>
+                <outlet property="titleTextField" destination="oSP-EI-EUF" id="obX-Lq-hEF"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="To Do" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="13V-U4-SC4">
+                    <rect key="frame" x="20" y="144" width="374" height="29"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Title" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oSP-EI-EUF">
+                    <rect key="frame" x="20" y="198" width="374" height="34"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yuH-qP-xCt">
+                    <rect key="frame" x="20" y="282" width="374" height="31"/>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain" title="Save"/>
+                    <connections>
+                        <action selector="saveButtonTouch:" destination="-1" eventType="touchUpInside" id="Jq3-xF-wx4"/>
+                    </connections>
+                </button>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="oSP-EI-EUF" secondAttribute="trailing" constant="20" id="1Cq-fN-RU6"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="13V-U4-SC4" secondAttribute="trailing" constant="20" id="1QT-iA-i4b"/>
+                <constraint firstItem="oSP-EI-EUF" firstAttribute="top" secondItem="13V-U4-SC4" secondAttribute="bottom" constant="25" id="2e1-WH-h7H"/>
+                <constraint firstItem="yuH-qP-xCt" firstAttribute="top" secondItem="oSP-EI-EUF" secondAttribute="bottom" constant="50" id="DiX-e1-LFu"/>
+                <constraint firstItem="yuH-qP-xCt" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="Fdf-Ly-xCi"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="yuH-qP-xCt" secondAttribute="trailing" constant="20" id="N0Q-s2-Jsv"/>
+                <constraint firstItem="13V-U4-SC4" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="100" id="OAD-wB-5A2"/>
+                <constraint firstItem="13V-U4-SC4" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="d53-Dc-tJm"/>
+                <constraint firstItem="oSP-EI-EUF" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="jKy-3c-gdN"/>
+            </constraints>
+            <point key="canvasLocation" x="3" y="108"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
