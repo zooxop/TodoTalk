@@ -10,6 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddTalkVC" customModule="TodoTalk" customModuleProvider="target">
             <connections>
+                <outlet property="dateTextButton" destination="D1S-oc-lZi" id="v9J-jx-WjR"/>
                 <outlet property="saveButton" destination="yuH-qP-xCt" id="MyP-nC-BEa"/>
                 <outlet property="titleTextField" destination="oSP-EI-EUF" id="obX-Lq-hEF"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -20,23 +21,41 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="To Do" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="13V-U4-SC4">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="할 일 만들기" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="13V-U4-SC4">
                     <rect key="frame" x="20" y="144" width="374" height="29"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Title" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oSP-EI-EUF">
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="할 일" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oSP-EI-EUF">
                     <rect key="frame" x="20" y="198" width="374" height="34"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
+                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9PG-DK-Gw9">
+                    <rect key="frame" x="93" y="262" width="51" height="31"/>
+                </switch>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="날짜 설정" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AKS-Cc-5LA">
+                    <rect key="frame" x="20" y="267" width="63" height="21"/>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yuH-qP-xCt">
-                    <rect key="frame" x="20" y="282" width="374" height="31"/>
+                    <rect key="frame" x="355.5" y="59" width="48.5" height="31"/>
                     <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="plain" title="Save"/>
+                    <buttonConfiguration key="configuration" style="plain" title="저장"/>
                     <connections>
                         <action selector="saveButtonTouch:" destination="-1" eventType="touchUpInside" id="Jq3-xF-wx4"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="D1S-oc-lZi">
+                    <rect key="frame" x="162" y="267" width="232" height="31"/>
+                    <buttonConfiguration key="configuration" style="plain" title="Date text">
+                        <fontDescription key="titleFontDescription" style="UICTFontTextStyleHeadline"/>
+                    </buttonConfiguration>
+                    <connections>
+                        <action selector="dateTextButtonTouch:" destination="-1" eventType="touchUpInside" id="tRN-PU-tpG"/>
                     </connections>
                 </button>
             </subviews>
@@ -46,12 +65,18 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="oSP-EI-EUF" secondAttribute="trailing" constant="20" id="1Cq-fN-RU6"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="13V-U4-SC4" secondAttribute="trailing" constant="20" id="1QT-iA-i4b"/>
                 <constraint firstItem="oSP-EI-EUF" firstAttribute="top" secondItem="13V-U4-SC4" secondAttribute="bottom" constant="25" id="2e1-WH-h7H"/>
-                <constraint firstItem="yuH-qP-xCt" firstAttribute="top" secondItem="oSP-EI-EUF" secondAttribute="bottom" constant="50" id="DiX-e1-LFu"/>
-                <constraint firstItem="yuH-qP-xCt" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="Fdf-Ly-xCi"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="yuH-qP-xCt" secondAttribute="trailing" constant="20" id="N0Q-s2-Jsv"/>
+                <constraint firstItem="D1S-oc-lZi" firstAttribute="leading" secondItem="9PG-DK-Gw9" secondAttribute="trailing" constant="20" id="MhD-hm-j7n"/>
                 <constraint firstItem="13V-U4-SC4" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="100" id="OAD-wB-5A2"/>
+                <constraint firstItem="AKS-Cc-5LA" firstAttribute="top" secondItem="oSP-EI-EUF" secondAttribute="bottom" constant="35" id="Z7K-uW-f2N"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="yuH-qP-xCt" secondAttribute="trailing" constant="10" id="Zzd-VY-Rq1"/>
                 <constraint firstItem="13V-U4-SC4" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="d53-Dc-tJm"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="D1S-oc-lZi" secondAttribute="trailing" constant="20" id="ioe-d1-DjQ"/>
                 <constraint firstItem="oSP-EI-EUF" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="jKy-3c-gdN"/>
+                <constraint firstItem="AKS-Cc-5LA" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="jV2-OK-7Hx"/>
+                <constraint firstItem="9PG-DK-Gw9" firstAttribute="leading" secondItem="AKS-Cc-5LA" secondAttribute="trailing" constant="10" id="qEL-Xe-0G6"/>
+                <constraint firstItem="9PG-DK-Gw9" firstAttribute="top" secondItem="oSP-EI-EUF" secondAttribute="bottom" constant="30" id="sGE-ro-9LX"/>
+                <constraint firstItem="yuH-qP-xCt" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="15" id="y5e-vy-jXc"/>
+                <constraint firstItem="D1S-oc-lZi" firstAttribute="top" secondItem="oSP-EI-EUF" secondAttribute="bottom" constant="35" id="yPe-jI-8Lp"/>
             </constraints>
             <point key="canvasLocation" x="3" y="108"/>
         </view>

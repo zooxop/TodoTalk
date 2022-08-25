@@ -9,16 +9,26 @@ class AddTalkVC: UIViewController {
 
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var dateTextButton: UIButton!
     
     weak var delegate: AddTalkVCDelegate?
+    var formatter = DateFormatter()
+    let datePicker = UIDatePicker()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        formatter.dateFormat = "yyyy-MM-dd"
     }
     
     override func viewDidLayoutSubviews() {
         self.titleTextField.setBottomBorder()
-        self.saveButton.setBorderRoundly(color: UIColor.green)
+        
+        if let hasTitleLabel = dateTextButton.titleLabel {
+            hasTitleLabel.text = formatter.string(from: Date())  // 오늘 날짜
+            hasTitleLabel.textColor = UIColor.darkText
+        }
     }
 
     @IBAction func saveButtonTouch(_ sender: Any) {
@@ -46,6 +56,15 @@ class AddTalkVC: UIViewController {
         
         self.dismiss(animated: true, completion: nil)
     }
+    
+    
+    // half-screen modal view
+    @IBAction func dateTextButtonTouch(_ sender: Any) {
+        let datePickerVC = CustomHalfModalVC()
+        datePickerVC.modalPresentationStyle = .custom
+        self.present(datePickerVC, animated: true, completion: nil)
+    }
+    
 }
 
 extension UITextField {
