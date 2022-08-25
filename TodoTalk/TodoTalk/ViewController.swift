@@ -37,6 +37,7 @@ class ViewController: UIViewController {
     @objc func presentAddTalkVC() {
         let addTalkVC = AddTalkVC.init(nibName: "AddTalkVC", bundle: nil)
         
+        addTalkVC.delegate = self
         self.present(addTalkVC, animated: true, completion: nil)
     }
     
@@ -68,4 +69,19 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        // cell 클릭 이벤트
+        // Talk 화면으로 넘어가는 코딩 필요.
+        
+        talkTableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+}
+
+// Add 팝업 페이지 delegate
+extension ViewController: AddTalkVCDelegate {
+    func didFinishSaveData() {
+        self.fetchTodoTalks()
+        self.talkTableView.reloadData()
+    }
 }

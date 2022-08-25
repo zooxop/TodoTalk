@@ -1,9 +1,16 @@
 import UIKit
+import CoreData
+
+protocol AddTalkVCDelegate: AnyObject {
+    func didFinishSaveData()
+}
 
 class AddTalkVC: UIViewController {
 
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var saveButton: UIButton!
+    
+    weak var delegate: AddTalkVCDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -15,6 +22,28 @@ class AddTalkVC: UIViewController {
     }
 
     @IBAction func saveButtonTouch(_ sender: Any) {
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        
+        guard let entityDescription = NSEntityDescription.entity(forEntityName: "TodoTalk", in: context) else {
+            return
+        }
+        
+        guard let object = NSManagedObject(entity: entityDescription, insertInto: context) as? TodoTalk else {
+            return
+        }
+        
+        object.title = titleTextField.text
+        object.createDate = Date()  // 현재 날짜
+        object.uuid = UUID()  // UUID: Unique ID
+        object.deadline = Date()  // 임시로
+        object.isFinished = false
+        
+        // save data
+        (UIApplication.shared.delegate as! AppDelegate).saveContext()
+        
+        // delegate
+        delegate?.didFinishSaveData()
+        
         self.dismiss(animated: true, completion: nil)
     }
 }
