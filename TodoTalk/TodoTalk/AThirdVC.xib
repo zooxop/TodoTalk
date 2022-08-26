@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AThirdVC" customModule="TodoTalk" customModuleProvider="target">
+            <connections>
+                <outlet property="backdropView" destination="Xen-1O-FCY" id="Oh1-Hd-YBh"/>
+                <outlet property="datePicker" destination="0FM-6d-55J" id="Ny7-eU-ZGW"/>
+                <outlet property="menuView" destination="Jjc-13-Sb4" id="PMn-HI-u8z"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xen-1O-FCY">
+                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jjc-13-Sb4">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
+                            <subviews>
+                                <datePicker contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="0FM-6d-55J">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="126"/>
+                                </datePicker>
+                            </subviews>
+                            <color key="backgroundColor" systemColor="secondarySystemFillColor"/>
+                            <constraints>
+                                <constraint firstItem="0FM-6d-55J" firstAttribute="top" secondItem="Jjc-13-Sb4" secondAttribute="top" id="6rE-FD-Yl5"/>
+                                <constraint firstAttribute="trailing" secondItem="0FM-6d-55J" secondAttribute="trailing" id="Ela-6W-qu8"/>
+                                <constraint firstItem="0FM-6d-55J" firstAttribute="leading" secondItem="Jjc-13-Sb4" secondAttribute="leading" id="iLQ-UP-svn"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstItem="Jjc-13-Sb4" firstAttribute="leading" secondItem="Xen-1O-FCY" secondAttribute="leading" id="N5y-Kr-TLE"/>
+                        <constraint firstItem="Jjc-13-Sb4" firstAttribute="centerY" secondItem="Xen-1O-FCY" secondAttribute="centerY" id="OQO-7Y-RNa"/>
+                        <constraint firstAttribute="bottom" secondItem="Jjc-13-Sb4" secondAttribute="bottom" id="Qne-E8-0Pp"/>
+                        <constraint firstAttribute="trailing" secondItem="Jjc-13-Sb4" secondAttribute="trailing" id="ob2-cT-Z6F"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="Xen-1O-FCY" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="0h1-VR-bnG"/>
+                <constraint firstItem="Xen-1O-FCY" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="j56-gJ-D4D"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Xen-1O-FCY" secondAttribute="trailing" id="xGG-XR-bZO"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Xen-1O-FCY" secondAttribute="bottom" id="xQu-zw-rBd"/>
+            </constraints>
+            <point key="canvasLocation" x="131.8840579710145" y="130.58035714285714"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="secondarySystemFillColor">
+            <color red="0.47058823529411764" green="0.47058823529411764" blue="0.50196078431372548" alpha="0.16" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
