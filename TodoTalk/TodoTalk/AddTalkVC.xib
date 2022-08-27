@@ -10,9 +10,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddTalkVC" customModule="TodoTalk" customModuleProvider="target">
             <connections>
-                <outlet property="dateTextButton" destination="D1S-oc-lZi" id="v9J-jx-WjR"/>
+                <outlet property="isTodoDateSwitch" destination="9PG-DK-Gw9" id="Ceh-K7-LTw"/>
                 <outlet property="saveButton" destination="yuH-qP-xCt" id="MyP-nC-BEa"/>
                 <outlet property="titleTextField" destination="oSP-EI-EUF" id="obX-Lq-hEF"/>
+                <outlet property="todoDatePicker" destination="a4h-1v-Rru" id="5n5-ku-8KT"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -49,15 +50,10 @@
                         <action selector="saveButtonTouch:" destination="-1" eventType="touchUpInside" id="Jq3-xF-wx4"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="D1S-oc-lZi">
-                    <rect key="frame" x="162" y="267" width="232" height="31"/>
-                    <buttonConfiguration key="configuration" style="plain" title="Date text">
-                        <fontDescription key="titleFontDescription" style="UICTFontTextStyleHeadline"/>
-                    </buttonConfiguration>
-                    <connections>
-                        <action selector="dateTextButtonTouch:" destination="-1" eventType="touchUpInside" id="tRN-PU-tpG"/>
-                    </connections>
-                </button>
+                <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="a4h-1v-Rru">
+                    <rect key="frame" x="162" y="262" width="232" height="31"/>
+                    <locale key="locale" localeIdentifier="ko_KR"/>
+                </datePicker>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -65,20 +61,20 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="oSP-EI-EUF" secondAttribute="trailing" constant="20" id="1Cq-fN-RU6"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="13V-U4-SC4" secondAttribute="trailing" constant="20" id="1QT-iA-i4b"/>
                 <constraint firstItem="oSP-EI-EUF" firstAttribute="top" secondItem="13V-U4-SC4" secondAttribute="bottom" constant="25" id="2e1-WH-h7H"/>
-                <constraint firstItem="D1S-oc-lZi" firstAttribute="leading" secondItem="9PG-DK-Gw9" secondAttribute="trailing" constant="20" id="MhD-hm-j7n"/>
                 <constraint firstItem="13V-U4-SC4" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="100" id="OAD-wB-5A2"/>
+                <constraint firstItem="a4h-1v-Rru" firstAttribute="leading" secondItem="9PG-DK-Gw9" secondAttribute="trailing" constant="20" id="QzQ-2e-ZNc"/>
                 <constraint firstItem="AKS-Cc-5LA" firstAttribute="top" secondItem="oSP-EI-EUF" secondAttribute="bottom" constant="35" id="Z7K-uW-f2N"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="yuH-qP-xCt" secondAttribute="trailing" constant="10" id="Zzd-VY-Rq1"/>
+                <constraint firstItem="a4h-1v-Rru" firstAttribute="top" secondItem="oSP-EI-EUF" secondAttribute="bottom" constant="30" id="bVa-mI-8ph"/>
                 <constraint firstItem="13V-U4-SC4" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="d53-Dc-tJm"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="D1S-oc-lZi" secondAttribute="trailing" constant="20" id="ioe-d1-DjQ"/>
                 <constraint firstItem="oSP-EI-EUF" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="jKy-3c-gdN"/>
                 <constraint firstItem="AKS-Cc-5LA" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="jV2-OK-7Hx"/>
                 <constraint firstItem="9PG-DK-Gw9" firstAttribute="leading" secondItem="AKS-Cc-5LA" secondAttribute="trailing" constant="10" id="qEL-Xe-0G6"/>
                 <constraint firstItem="9PG-DK-Gw9" firstAttribute="top" secondItem="oSP-EI-EUF" secondAttribute="bottom" constant="30" id="sGE-ro-9LX"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="a4h-1v-Rru" secondAttribute="trailing" constant="20" id="vve-X5-wdp"/>
                 <constraint firstItem="yuH-qP-xCt" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="15" id="y5e-vy-jXc"/>
-                <constraint firstItem="D1S-oc-lZi" firstAttribute="top" secondItem="oSP-EI-EUF" secondAttribute="bottom" constant="35" id="yPe-jI-8Lp"/>
             </constraints>
-            <point key="canvasLocation" x="-188" y="110"/>
+            <point key="canvasLocation" x="-188.40579710144928" y="109.82142857142857"/>
         </view>
     </objects>
     <resources>

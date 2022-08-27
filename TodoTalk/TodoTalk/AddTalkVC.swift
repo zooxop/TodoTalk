@@ -9,7 +9,8 @@ class AddTalkVC: UIViewController {
 
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var saveButton: UIButton!
-    @IBOutlet weak var dateTextButton: UIButton!
+    @IBOutlet weak var todoDatePicker: UIDatePicker!
+    @IBOutlet weak var isTodoDateSwitch: UISwitch!
     
     weak var delegate: AddTalkVCDelegate?
     var formatter = DateFormatter()
@@ -21,19 +22,14 @@ class AddTalkVC: UIViewController {
         
         formatter.dateFormat = "yyyy-MM-dd"
         
+        datePicker.locale = NSLocale(localeIdentifier: "ko_KO") as Locale
     }
     
     override func viewDidLayoutSubviews() {
         self.titleTextField.setBottomBorder()
-        self.setDateButtonText(text: formatter.string(from: Date()))  // 오늘 날짜
+        
     }
     
-    func setDateButtonText(text: String){
-        if let hasTitleLabel = dateTextButton.titleLabel {
-            hasTitleLabel.text = text
-            hasTitleLabel.textColor = UIColor.darkText
-        }
-    }
 
     @IBAction func saveButtonTouch(_ sender: Any) {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -61,30 +57,6 @@ class AddTalkVC: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    
-    // half-screen modal view
-    @IBAction func dateTextButtonTouch(_ sender: Any) {
-        self.showHalfScreenModal()
-    }
-    
-    // use half-screen modal view
-    func showHalfScreenModal() {
-        // let datePickerVC = CustomHalfModalVC()
-        
-        let datePickerVC = AThirdVC.init(nibName: "AThirdVC", bundle: nil)
-        datePickerVC.transitioningDelegate = datePickerVC
-        
-        datePickerVC.modalPresentationStyle = .custom
-        datePickerVC.delegate = self
-        self.present(datePickerVC, animated: true, completion: nil)
-    }
-    
-}
-
-extension AddTalkVC: modalDelegate {
-    func pickedDate(text: String) {
-        self.setDateButtonText(text: text)
-    }
 }
 
 extension UITextField {
