@@ -13,16 +13,18 @@ class AddTalkVC: UIViewController {
     @IBOutlet weak var isTodoDateSwitch: UISwitch!
     
     weak var delegate: AddTalkVCDelegate?
-    var formatter = DateFormatter()
-    let datePicker = UIDatePicker()
+    var dateFormatter = DateFormatter()
+    
+    var selectedDate = Date()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        formatter.dateFormat = "yyyy-MM-dd"
-        
-        datePicker.locale = NSLocale(localeIdentifier: "ko_KO") as Locale
+        self.dateFormatter.dateFormat = "yyyy-MM-dd"
+        self.todoDatePicker.locale = Locale(identifier: "ko")
+        self.isTodoDateSwitch.isOn = true  // "날짜 설정" 기본값 => true
+        self.todoDatePicker.addTarget(self, action: #selector(onDidChangeDate(sender:)), for: .valueChanged)
     }
     
     override func viewDidLayoutSubviews() {
@@ -30,6 +32,9 @@ class AddTalkVC: UIViewController {
         
     }
     
+    @objc func onDidChangeDate(sender: UIDatePicker) {
+        self.selectedDate = sender.date
+    }    
 
     @IBAction func saveButtonTouch(_ sender: Any) {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -42,21 +47,36 @@ class AddTalkVC: UIViewController {
             return
         }
         
+        object.uuid = UUID()  // UUID: Unique ID
         object.title = titleTextField.text
         object.createDate = Date()  // 현재 날짜
-        object.uuid = UUID()  // UUID: Unique ID
-        object.deadline = Date()  // 임시로
         object.isFinished = false
+        
+        object.isUseDate = self.isTodoDateSwitch.isOn  // 날짜 설정 여부
+        if self.isTodoDateSwitch.isOn {
+            object.selectedDate = self.selectedDate
+        } else {
+            object.selectedDate = nil  // 날짜 사용 X
+        }
+        
         
         // save data
         (UIApplication.shared.delegate as! AppDelegate).saveContext()
         
         // delegate
-        delegate?.didFinishSaveData()
+        self.delegate?.didFinishSaveData()
         
         self.dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func onTouchSwitch(_ sender: Any) {
+        
+        self.todoDatePicker.layer.isHidden = !self.isTodoDateSwitch.isOn
+    }
+    
+    @IBAction func cancelButtonTouch(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
 }
 
 extension UITextField {

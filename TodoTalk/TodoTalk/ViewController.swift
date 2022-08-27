@@ -12,7 +12,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var talkTableView: UITableView!
     
     // App delegate 접근
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let appDelegate: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
+    lazy var context = appDelegate?.persistentContainer.viewContext
     
     var todoTalks = [TodoTalk]()
     
@@ -43,14 +44,27 @@ class ViewController: UIViewController {
     }
     
     func fetchTodoTalks() {
-        let fetchRequest: NSFetchRequest<TodoTalk> = TodoTalk.fetchRequest()
-        let context = appDelegate.persistentContainer.viewContext
         
-        do {
-            self.todoTalks = try context.fetch(fetchRequest)
-        } catch {
-            print(error)
+        // 선택한 데이터만 가져오기(쿼리 where절 같은 개념)
+        // fetchRequest.predicate = NSPredicate(format: "isFinished = %@", true)
+        
+        if let context = self.context {
+            // ascending: true 오름차순 / false 내림차순
+            let dateSort = NSSortDescriptor(key: "createDate", ascending: false)
+            let fetchRequest: NSFetchRequest<TodoTalk> = TodoTalk.fetchRequest()
+            let predicate = NSPredicate(format: "isFinished = %d", false)  // 완료된 talk은 보여주지 않음.
+            
+            fetchRequest.predicate = predicate
+            fetchRequest.sortDescriptors = [dateSort]  // 정렬 기준
+            
+            do {
+                self.todoTalks = try context.fetch(fetchRequest)
+
+            } catch {
+                print(error)
+            }
         }
+
     }
 
 }
@@ -65,16 +79,23 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.todoTitleLabel.text = todoTalks[indexPath.row].title
         // cell.todoContentLabel.text = todoTalks[indexPath.row].  // 마지막 채팅 내용이 보여야 함
+        cell.todoContentLabel.text = todoTalks[indexPath.row].selectedDate?.description ?? ""  // 임시
         cell.dateCheckView.layer.cornerRadius = cell.dateCheckView.bounds.height / 2
+        
+        if todoTalks[indexPath.row].isUseDate {
+            cell.dateCheckView.layer.backgroundColor = CGColor.init(red: 40/255, green: 40/255, blue: 40/255, alpha: 1.0)
+        } else {
+            
+        }
         
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // cell 클릭 이벤트
         // Talk 화면으로 넘어가는 코딩 필요.
         
-        talkTableView.deselectRow(at: indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
 }
