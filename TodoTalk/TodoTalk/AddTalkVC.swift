@@ -37,31 +37,13 @@ class AddTalkVC: UIViewController {
     }    
 
     @IBAction func saveButtonTouch(_ sender: Any) {
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        
-        guard let entityDescription = NSEntityDescription.entity(forEntityName: "TodoTalk", in: context) else {
-            return
+        if let title = titleTextField.text {
+            if self.isTodoDateSwitch.isOn {
+                CoredataManager.shared.insertTodoTalk(title: title, isUseDate: true, selectedDate: self.selectedDate)
+            } else {
+                CoredataManager.shared.insertTodoTalk(title: title, isUseDate: false, selectedDate: nil)
+            }
         }
-        
-        guard let object = NSManagedObject(entity: entityDescription, insertInto: context) as? TodoTalk else {
-            return
-        }
-        
-        object.uuid = UUID()  // UUID: Unique ID
-        object.title = titleTextField.text
-        object.createDate = Date()  // 현재 날짜
-        object.isFinished = false
-        
-        object.isUseDate = self.isTodoDateSwitch.isOn  // 날짜 설정 여부
-        if self.isTodoDateSwitch.isOn {
-            object.selectedDate = self.selectedDate
-        } else {
-            object.selectedDate = nil  // 날짜 사용 X
-        }
-        
-        
-        // save data
-        (UIApplication.shared.delegate as! AppDelegate).saveContext()
         
         // delegate
         self.delegate?.didFinishSaveData()

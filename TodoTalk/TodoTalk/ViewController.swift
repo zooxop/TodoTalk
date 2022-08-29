@@ -1,7 +1,6 @@
 // Core data
 // messageKit
 // calendar
-// toast-swift
 
 
 import UIKit
@@ -44,27 +43,7 @@ class ViewController: UIViewController {
     }
     
     func fetchTodoTalks() {
-        
-        // 선택한 데이터만 가져오기(쿼리 where절 같은 개념)
-        // fetchRequest.predicate = NSPredicate(format: "isFinished = %@", true)
-        
-        if let context = self.context {
-            // ascending: true 오름차순 / false 내림차순
-            let dateSort = NSSortDescriptor(key: "createDate", ascending: false)
-            let fetchRequest: NSFetchRequest<TodoTalk> = TodoTalk.fetchRequest()
-            let predicate = NSPredicate(format: "isFinished = %d", false)  // 완료된 talk은 보여주지 않음.
-            
-            fetchRequest.predicate = predicate
-            fetchRequest.sortDescriptors = [dateSort]  // 정렬 기준
-            
-            do {
-                self.todoTalks = try context.fetch(fetchRequest)
-
-            } catch {
-                print(error)
-            }
-        }
-
+        self.todoTalks = CoredataManager.shared.getTodoTalks(ascending: false, isFinished: false)
     }
 
 }
@@ -96,6 +75,26 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         // Talk 화면으로 넘어가는 코딩 필요.
         
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    
+    // 스와이프 이벤트
+    // 오른쪽에 스와이프 버튼 만들기
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let deleteTalk = UIContextualAction(style: .normal, title: "삭제") { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
+            
+            // talk delete 이벤트 달기
+            // coredata 매니저 클래스 만들어서 분리하기.
+            CoredataManager.shared.updateTalkFinished(talkData: self.todoTalks[indexPath.row], isFinished: true)
+            self.todoTalks.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            success(true)
+        }
+        deleteTalk.backgroundColor = .systemRed
+        
+        //actions배열 인덱스 0이 왼쪽에 붙어서 나옴
+        return UISwipeActionsConfiguration(actions:[deleteTalk])
     }
     
 }
