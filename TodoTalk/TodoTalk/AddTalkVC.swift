@@ -21,6 +21,8 @@ class AddTalkVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.titleTextField.delegate = self
+        
         self.dateFormatter.dateFormat = "yyyy-MM-dd"
         self.todoDatePicker.locale = Locale(identifier: "ko")
         self.isTodoDateSwitch.isOn = true  // "날짜 설정" 기본값 => true
@@ -37,7 +39,7 @@ class AddTalkVC: UIViewController {
     }    
 
     @IBAction func saveButtonTouch(_ sender: Any) {
-        if let title = titleTextField.text {
+        if let title = self.titleTextField.text {
             if self.isTodoDateSwitch.isOn {
                 CoredataManager.shared.insertTodoTalk(title: title, isUseDate: true, selectedDate: self.selectedDate)
             } else {
@@ -58,6 +60,18 @@ class AddTalkVC: UIViewController {
     
     @IBAction func cancelButtonTouch(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
+    }
+    
+}
+
+extension AddTalkVC: UITextFieldDelegate {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder() // TextField 비활성화
+        return true
     }
 }
 

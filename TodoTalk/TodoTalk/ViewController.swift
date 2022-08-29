@@ -2,6 +2,12 @@
 // messageKit
 // calendar
 
+// To-do:
+// 1. dateCheckView 날짜 or 체크표시 둘 중 하나 보이도록 처리.
+// 2. cell 높이 일정하게 고정시키기
+// 3. coredata 모델 여러개 사용하기
+//   - 조인하는 방법 찾아보기
+
 
 import UIKit
 import CoreData
@@ -84,8 +90,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         
         let deleteTalk = UIContextualAction(style: .normal, title: "삭제") { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
             
-            // talk delete 이벤트 달기
-            // coredata 매니저 클래스 만들어서 분리하기.
             CoredataManager.shared.updateTalkFinished(talkData: self.todoTalks[indexPath.row], isFinished: true)
             self.todoTalks.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
