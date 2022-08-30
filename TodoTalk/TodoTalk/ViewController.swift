@@ -29,6 +29,8 @@ class ViewController: UIViewController {
         self.talkTableView.delegate = self
         self.talkTableView.dataSource = self
         
+        
+        
         self.makeNavigationBar()
         
         self.fetchTodoTalks()  // coredata - 데이터 가져오기
@@ -64,7 +66,12 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.todoTitleLabel.text = todoTalks[indexPath.row].title
         // cell.todoContentLabel.text = todoTalks[indexPath.row].  // 마지막 채팅 내용이 보여야 함
-        cell.todoContentLabel.text = todoTalks[indexPath.row].selectedDate?.description ?? ""  // 임시
+        if let hasDescription = todoTalks[indexPath.row].selectedDate?.description {
+            cell.todoContentLabel.text = hasDescription
+        } else {
+            cell.todoContentLabel.text = "aa\nbb"
+        }
+          // 임시
         cell.dateCheckView.layer.cornerRadius = cell.dateCheckView.bounds.height / 2
         
         if todoTalks[indexPath.row].isUseDate {
