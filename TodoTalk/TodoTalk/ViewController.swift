@@ -4,7 +4,6 @@
 
 // To-do:
 // 1. dateCheckView 날짜 or 체크표시 둘 중 하나 보이도록 처리.
-// 2. cell 높이 일정하게 고정시키기
 // 3. coredata 모델 여러개 사용하기
 //   - 조인하는 방법 찾아보기
 
@@ -28,8 +27,6 @@ class ViewController: UIViewController {
         
         self.talkTableView.delegate = self
         self.talkTableView.dataSource = self
-        
-        
         
         self.makeNavigationBar()
         
@@ -68,15 +65,35 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         // cell.todoContentLabel.text = todoTalks[indexPath.row].  // 마지막 채팅 내용이 보여야 함
         if let hasDescription = todoTalks[indexPath.row].selectedDate?.description {
             cell.todoContentLabel.text = hasDescription
+            if cell.todoContentLabel.countCurrentLines() == 1 {
+                cell.todoContentLabel.text = hasDescription + "\n"
+            }
         } else {
-            cell.todoContentLabel.text = "aa\nbb"
+            cell.todoContentLabel.text = " \n"
         }
-          // 임시
+        
         cell.dateCheckView.layer.cornerRadius = cell.dateCheckView.bounds.height / 2
+        cell.dateCheckView.layer.borderWidth = 1
         
         if todoTalks[indexPath.row].isUseDate {
             cell.dateCheckView.layer.backgroundColor = CGColor.init(red: 40/255, green: 40/255, blue: 40/255, alpha: 1.0)
+            
+            // todo UILabel 올려서 월/일 표시하기
         } else {
+            cell.dateCheckView.layer.backgroundColor = CGColor.init(red: 100/255, green: 40/255, blue: 100/255, alpha: 1.0)
+            // 체크 표시 보여주기
+            let largeConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large)
+            let myImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+            cell.dateCheckView.addSubview(myImageView)
+            
+            myImageView.translatesAutoresizingMaskIntoConstraints = false
+            myImageView.image = UIImage(systemName: "checkmark", withConfiguration: largeConfig)
+            
+            // myImageView.tintColor = .orange  // 적절한 색 찾기
+            
+            myImageView.contentMode = .scaleAspectFit
+            myImageView.centerXAnchor.constraint(equalTo: cell.dateCheckView.centerXAnchor).isActive = true
+            myImageView.centerYAnchor.constraint(equalTo: cell.dateCheckView.centerYAnchor).isActive = true
             
         }
         
@@ -116,4 +133,35 @@ extension ViewController: AddTalkVCDelegate {
         self.fetchTodoTalks()
         self.talkTableView.reloadData()
     }
+}
+
+
+extension UILabel {
+
+    func countCurrentLines() -> Int {
+        guard let text = self.text as NSString? else { return 0 }
+        guard let font = self.font              else { return 0 }
+        
+        var attributes = [NSAttributedString.Key: Any]()
+        
+        // kern을 설정하면 자간 간격이 조정되기 때문에, 크기에 영향을 미칠 수 있습니다.
+        if let kernAttribute = self.attributedText?.attributes(at: 0, effectiveRange: nil).first(where: { key, _ in
+            return key == .kern
+        }) {
+            attributes[.kern] = kernAttribute.value
+        }
+        attributes[.font] = font
+        
+        // width을 제한한 상태에서 해당 Text의 Height를 구하기 위해 boundingRect 사용
+        let labelTextSize = text.boundingRect(
+            with: CGSize(width: self.bounds.width, height: .greatestFiniteMagnitude),
+            options: .usesLineFragmentOrigin,
+            attributes: attributes,
+            context: nil
+        )
+        
+        // 총 Height에서 한 줄의 Line Height를 나누면 현재 총 Line 수
+        return Int(ceil(labelTextSize.height / font.lineHeight))
+    }
+ 
 }
