@@ -17,6 +17,10 @@ class ViewController: UIViewController {
     
     // App delegate 접근
     let appDelegate: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
+    
+    let CHECKMARKCOLOR = UIColor(named: "CheckmarkColor")
+    let DATEVIEWCOLOR = UIColor(named: "DateViewColor")
+    
     lazy var context = appDelegate?.persistentContainer.viewContext
     
     var todoTalks = [TodoTalk]()
@@ -73,14 +77,58 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         cell.dateCheckView.layer.cornerRadius = cell.dateCheckView.bounds.height / 2
-        cell.dateCheckView.layer.borderWidth = 1
+        cell.dateCheckView.layer.borderWidth = 0
+
         
         if todoTalks[indexPath.row].isUseDate {
-            cell.dateCheckView.layer.backgroundColor = CGColor.init(red: 40/255, green: 40/255, blue: 40/255, alpha: 1.0)
+            let selectedDate = todoTalks[indexPath.row].selectedDate
+            let dateFormatter = DateFormatter()
             
-            // todo UILabel 올려서 월/일 표시하기
+            var monthString = ""
+            var dateString = ""
+            
+            if let date = selectedDate {
+                dateFormatter.dateFormat = "MMM"
+                monthString = dateFormatter.string(from: date)
+                
+                dateFormatter.dateFormat = "dd"
+                dateString = dateFormatter.string(from: date)
+            }
+            
+            
+            cell.dateCheckView.backgroundColor = DATEVIEWCOLOR
+            
+            let monthLabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+            let dateLabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+            cell.dateCheckView.addSubview(monthLabel)
+            cell.dateCheckView.addSubview(dateLabel)
+            
+            monthLabel.translatesAutoresizingMaskIntoConstraints = false
+            monthLabel.text = monthString // "JUN"
+            monthLabel.textColor = .white
+            monthLabel.textAlignment = .center
+            monthLabel.font = UIFont.boldSystemFont(ofSize: 15)
+            
+            dateLabel.translatesAutoresizingMaskIntoConstraints = false
+            dateLabel.text = dateString // "17"
+            dateLabel.textColor = .white
+            dateLabel.textAlignment = .center
+            dateLabel.font = UIFont.boldSystemFont(ofSize: 12)
+            
+            let margineGuide = cell.dateCheckView.layoutMarginsGuide
+            NSLayoutConstraint.activate([
+                monthLabel.topAnchor.constraint(equalTo: margineGuide.topAnchor, constant: 0),
+                monthLabel.leadingAnchor.constraint(equalTo: margineGuide.leadingAnchor),
+                monthLabel.trailingAnchor.constraint(equalTo: margineGuide.trailingAnchor),
+                
+                dateLabel.topAnchor.constraint(equalTo: monthLabel.topAnchor, constant: 20),
+                dateLabel.leadingAnchor.constraint(equalTo: margineGuide.leadingAnchor),
+                dateLabel.trailingAnchor.constraint(equalTo: margineGuide.trailingAnchor)
+            ])
+
         } else {
-            cell.dateCheckView.layer.backgroundColor = CGColor.init(red: 100/255, green: 40/255, blue: 100/255, alpha: 1.0)
+            cell.dateCheckView.backgroundColor = CHECKMARKCOLOR
+            
             // 체크 표시 보여주기
             let largeConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large)
             let myImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
@@ -88,8 +136,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             
             myImageView.translatesAutoresizingMaskIntoConstraints = false
             myImageView.image = UIImage(systemName: "checkmark", withConfiguration: largeConfig)
-            
-            // myImageView.tintColor = .orange  // 적절한 색 찾기
+            myImageView.tintColor = .white
             
             myImageView.contentMode = .scaleAspectFit
             myImageView.centerXAnchor.constraint(equalTo: cell.dateCheckView.centerXAnchor).isActive = true
