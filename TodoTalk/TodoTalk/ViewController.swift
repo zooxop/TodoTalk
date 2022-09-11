@@ -1,11 +1,9 @@
 // Core data
-// messageKit
 // calendar
 
 // To-do:
-// 1. dateCheckView 날짜 or 체크표시 둘 중 하나 보이도록 처리.
-// 3. coredata 모델 여러개 사용하기
-//   - 조인하는 방법 찾아보기
+// 1. TalkVC 키보드 관련 작업 마무리하기
+// 2. 말풍선 길게 눌렀을 때 팝업(모달) 띄우는 방법 찾아보기
 
 
 import UIKit
@@ -150,8 +148,13 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // cell 클릭 이벤트
         // Talk 화면으로 넘어가는 코딩 필요.
+        let talkVC = TalkVC.init(nibName: "TalkVC", bundle: nil)
         
+        talkVC.modalPresentationStyle = .fullScreen
+        talkVC.talk = self.todoTalks[indexPath.row]
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        self.navigationController?.pushViewController(talkVC, animated: true)
     }
     
     

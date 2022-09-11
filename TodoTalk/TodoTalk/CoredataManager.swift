@@ -7,8 +7,27 @@ class CoredataManager {
     
     let appDelegate: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
     lazy var context = appDelegate?.persistentContainer.viewContext
-    
-    let modelName: String = "TodoTalk"
+
+    // 신규 TalkContents 생성하기
+    func insertTalkContents(todoTalk: TodoTalk, content: String) {
+        if let context = context {
+            guard let entityDescription = NSEntityDescription.entity(forEntityName: "TalkContents", in: context) else {
+                return
+            }
+            
+            guard let object = NSManagedObject(entity: entityDescription, insertInto: context) as? TalkContents else {
+                return
+            }
+            
+            object.uuid = UUID()
+            object.content = content
+            object.sendDate = Date()
+            
+            todoTalk.insertIntoJoinTalkId(object, at: 0)
+            
+            appDelegate?.saveContext()
+        }
+    }
     
     // TodoTalk 데이터 가져오기
     func getTodoTalks(ascending: Bool = false, isFinished: Bool) -> [TodoTalk] {
