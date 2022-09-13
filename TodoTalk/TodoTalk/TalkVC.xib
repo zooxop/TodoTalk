@@ -10,7 +10,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TalkVC" customModule="TodoTalk" customModuleProvider="target">
             <connections>
-                <outlet property="talkTableView" destination="jFI-Eh-iVX" id="4WR-Xg-eTE"/>
+                <outlet property="contentsTableView" destination="jFI-Eh-iVX" id="WQa-Ey-4zn"/>
+                <outlet property="inputTextView" destination="poI-Ka-tOe" id="TdT-qS-eRP"/>
+                <outlet property="inputViewBottomMargin" destination="wzk-dW-toU" id="0fK-Oe-TX0"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -29,12 +31,15 @@
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="poI-Ka-tOe">
                             <rect key="frame" x="5" y="5" width="341.5" height="30"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="1fH-5w-8vn"/>
+                            </constraints>
                             <color key="textColor" systemColor="labelColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         </textView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8b6-A2-N9q">
-                            <rect key="frame" x="351.5" y="5" width="57.5" height="31"/>
+                            <rect key="frame" x="351.5" y="5" width="57.5" height="30"/>
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="plain" title="Send"/>
                             <connections>
@@ -45,11 +50,11 @@
                     <color key="backgroundColor" systemColor="systemGray2Color"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="8b6-A2-N9q" secondAttribute="trailing" constant="5" id="1Hc-v1-SBk"/>
-                        <constraint firstAttribute="height" constant="40" id="4pZ-Ok-LIF"/>
                         <constraint firstItem="8b6-A2-N9q" firstAttribute="top" secondItem="tt7-6w-ZED" secondAttribute="top" constant="5" id="J88-D2-rMa"/>
                         <constraint firstItem="poI-Ka-tOe" firstAttribute="leading" secondItem="tt7-6w-ZED" secondAttribute="leading" constant="5" id="NRM-9O-Sbi"/>
                         <constraint firstAttribute="bottom" secondItem="poI-Ka-tOe" secondAttribute="bottom" constant="5" id="ZSu-YJ-eep"/>
                         <constraint firstItem="poI-Ka-tOe" firstAttribute="top" secondItem="tt7-6w-ZED" secondAttribute="top" constant="5" id="o2J-Rd-bPU"/>
+                        <constraint firstAttribute="bottom" secondItem="8b6-A2-N9q" secondAttribute="bottom" constant="5" id="uXD-vm-LgG"/>
                         <constraint firstItem="8b6-A2-N9q" firstAttribute="leading" secondItem="poI-Ka-tOe" secondAttribute="trailing" constant="5" id="vPt-G3-Lx5"/>
                     </constraints>
                 </view>
