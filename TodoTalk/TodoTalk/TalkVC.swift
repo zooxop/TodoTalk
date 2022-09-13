@@ -7,6 +7,7 @@ import UIKit
 
 class TalkVC: UIViewController {
 
+    @IBOutlet weak var inputBGView: UIView!
     @IBOutlet weak var contentsTableView: UITableView! {
         didSet {
             contentsTableView.delegate = self
@@ -21,7 +22,6 @@ class TalkVC: UIViewController {
     @IBOutlet weak var inputTextView: UITextView! {
         didSet {
             inputTextView.delegate = self
-//            self.setTextViewHeight(inputTextView)
         }
     }
     
@@ -48,6 +48,33 @@ class TalkVC: UIViewController {
         self.inputTextView.text = "."
         self.textViewDidChange(self.inputTextView)
         self.inputTextView.text = ""
+        
+        // 하단 safe area 색칠
+        self.configureCustomView()
+    }
+    
+    
+    // 하단 safe area 색칠하기
+    private let myView = UIView()
+    private func configureCustomView() {
+        var bomttomSafeAreaInsets: CGFloat = 0.0
+        let scenes = UIApplication.shared.connectedScenes
+        let windowScene = scenes.first as? UIWindowScene
+        if let hasWindowScene = windowScene {
+            bomttomSafeAreaInsets = hasWindowScene.keyWindow?.safeAreaInsets.bottom ?? 0
+        }
+        
+        self.myView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(self.myView)
+        self.myView.backgroundColor = .systemPurple
+
+        NSLayoutConstraint.activate([
+            self.myView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            self.myView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            self.myView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            self.myView.heightAnchor.constraint(equalToConstant: bomttomSafeAreaInsets)
+        ])
+        
     }
     
     @objc func keyboardWillShow(noti: Notification) {
