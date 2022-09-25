@@ -4,10 +4,15 @@ import UIKit
 // 1. 채팅 table view 터치하면 키보드 내려가도록 처리.
 // 2. send 누르면 채팅 되도록 기능 추가.
 // 3. bottom area color 세팅
+// -> safe area 색칠하는 다른 방법이 있는지 찾아보기.
 
 class TalkVC: UIViewController {
 
-    @IBOutlet weak var inputBGView: UIView!
+    @IBOutlet weak var inputBGView: UIView! {
+        didSet {
+            inputBGView.backgroundColor = UIColor.init(red: 235/255, green: 236/255, blue: 240/255, alpha: 1.0)
+        }
+    }
     @IBOutlet weak var contentsTableView: UITableView! {
         didSet {
             contentsTableView.delegate = self
@@ -66,7 +71,7 @@ class TalkVC: UIViewController {
         
         self.myView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(self.myView)
-        self.myView.backgroundColor = .systemPurple
+        self.myView.backgroundColor = UIColor.init(red: 235/255, green: 236/255, blue: 240/255, alpha: 1.0)
 
         NSLayoutConstraint.activate([
             self.myView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -91,7 +96,7 @@ class TalkVC: UIViewController {
         // Animation 적용
         UIView.animate(withDuration: animationDuration) {
             // 높이 적용해주기
-            self.inputViewBottomMargin.constant = height
+            self.inputViewBottomMargin.constant = 0 - height
             
             // layoutIfNeeded => layout 변경에 대한 이벤트를 큐의 뒤쪽이 아닌 앞으로 가져오고
             // 그에 대해 즉시 실행해주는 명령.

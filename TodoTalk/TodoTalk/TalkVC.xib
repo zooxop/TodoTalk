@@ -13,6 +13,7 @@
                 <outlet property="contentsTableView" destination="jFI-Eh-iVX" id="WQa-Ey-4zn"/>
                 <outlet property="inputBGView" destination="tt7-6w-ZED" id="QSk-ov-jpG"/>
                 <outlet property="inputTextView" destination="poI-Ka-tOe" id="TdT-qS-eRP"/>
+                <outlet property="inputViewBottomMargin" destination="pZS-WY-72J" id="eG5-gS-ryq"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -68,7 +69,7 @@
                 <constraint firstItem="tt7-6w-ZED" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="H11-ZK-qiG"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="jFI-Eh-iVX" secondAttribute="trailing" id="KKg-PO-k2C"/>
                 <constraint firstItem="jFI-Eh-iVX" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="LTS-Iv-dUb"/>
-                <constraint firstItem="tt7-6w-ZED" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="vfU-c6-ZJs"/>
+                <constraint firstItem="tt7-6w-ZED" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="pZS-WY-72J"/>
             </constraints>
             <point key="canvasLocation" x="131.8840579710145" y="130.58035714285714"/>
         </view>
