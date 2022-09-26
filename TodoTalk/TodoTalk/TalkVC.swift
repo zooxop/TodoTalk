@@ -1,16 +1,22 @@
 import UIKit
-
+import SafeAreaBrush
 
 // 1. 채팅 table view 터치하면 키보드 내려가도록 처리.
 // 2. send 누르면 채팅 되도록 기능 추가.
-// 3. bottom area color 세팅
-// -> safe area 색칠하는 다른 방법이 있는지 찾아보기.
+// * 바텀 컬러 처리해주는 코드는 빼서 다른 파일에 넣어놓기.
 
 class TalkVC: UIViewController {
-
+    
+    let bottomColor: UIColor = UIColor.init(red: 235/255, green: 236/255, blue: 240/255, alpha: 1.0)
+    
     @IBOutlet weak var inputBGView: UIView! {
         didSet {
-            inputBGView.backgroundColor = UIColor.init(red: 235/255, green: 236/255, blue: 240/255, alpha: 1.0)
+            inputBGView.backgroundColor = bottomColor
+        }
+    }
+    @IBOutlet weak var bottomSafeAreaView: UIView! {
+        didSet {
+            bottomSafeAreaView.backgroundColor = bottomColor
         }
     }
     @IBOutlet weak var contentsTableView: UITableView! {
@@ -55,7 +61,13 @@ class TalkVC: UIViewController {
         self.inputTextView.text = ""
         
         // 하단 safe area 색칠
-        self.configureCustomView()
+        // self.configureCustomView()
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        self.view.layoutMargins = .zero
+        self.view.layoutMarginsDidChange()
     }
     
     
@@ -78,6 +90,7 @@ class TalkVC: UIViewController {
             self.myView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             self.myView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             self.myView.heightAnchor.constraint(equalToConstant: bomttomSafeAreaInsets)
+            //self.myView.heightAnchor.constraint(equalToConstant: 50.0)
         ])
         
     }

@@ -6,15 +6,6 @@ target 'TodoTalk' do
   use_frameworks!
 
   # Pods for TodoTalk
-  pod 'Toast-Swift', '~> 5.0.1'
-
-  target 'TodoTalkTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
-  target 'TodoTalkUITests' do
-    # Pods for testing
-  end
+  pod 'SafeAreaBrush'
 
 end

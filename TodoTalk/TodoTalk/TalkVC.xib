@@ -10,6 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TalkVC" customModule="TodoTalk" customModuleProvider="target">
             <connections>
+                <outlet property="bottomSafeAreaView" destination="cjJ-ot-Whg" id="JG9-BP-zts"/>
                 <outlet property="contentsTableView" destination="jFI-Eh-iVX" id="WQa-Ey-4zn"/>
                 <outlet property="inputBGView" destination="tt7-6w-ZED" id="QSk-ov-jpG"/>
                 <outlet property="inputTextView" destination="poI-Ka-tOe" id="TdT-qS-eRP"/>
@@ -59,6 +60,10 @@
                         <constraint firstItem="8b6-A2-N9q" firstAttribute="leading" secondItem="poI-Ka-tOe" secondAttribute="trailing" constant="5" id="vPt-G3-Lx5"/>
                     </constraints>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cjJ-ot-Whg">
+                    <rect key="frame" x="0.0" y="862" width="414" height="68"/>
+                    <color key="backgroundColor" systemColor="systemCyanColor"/>
+                </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -69,6 +74,10 @@
                 <constraint firstItem="tt7-6w-ZED" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="H11-ZK-qiG"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="jFI-Eh-iVX" secondAttribute="trailing" id="KKg-PO-k2C"/>
                 <constraint firstItem="jFI-Eh-iVX" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="LTS-Iv-dUb"/>
+                <constraint firstItem="cjJ-ot-Whg" firstAttribute="top" secondItem="tt7-6w-ZED" secondAttribute="bottom" id="Vkk-Bo-r43"/>
+                <constraint firstAttribute="bottom" secondItem="cjJ-ot-Whg" secondAttribute="bottom" constant="-34" id="hWy-I6-C6q"/>
+                <constraint firstAttribute="trailing" secondItem="cjJ-ot-Whg" secondAttribute="trailing" id="izh-eK-zeP"/>
+                <constraint firstItem="cjJ-ot-Whg" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="lCP-pl-Nhc"/>
                 <constraint firstItem="tt7-6w-ZED" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="pZS-WY-72J"/>
             </constraints>
             <point key="canvasLocation" x="131.8840579710145" y="130.58035714285714"/>
@@ -80,6 +89,9 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemCyanColor">
+            <color red="0.19607843137254902" green="0.67843137254901964" blue="0.90196078431372551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray2Color">
             <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

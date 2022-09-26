@@ -1,0 +1,16 @@
+PODS:
+  - SafeAreaBrush (1.0.3)
+
+DEPENDENCIES:
+  - SafeAreaBrush
+
+SPEC REPOS:
+  trunk:
+    - SafeAreaBrush
+
+SPEC CHECKSUMS:
+  SafeAreaBrush: 13ada0b25dcfdde8f110f46b1d34dc017b01b12c
+
+PODFILE CHECKSUM: cef93f1481a75a55317afb47d9fec06a8d8826a4
+
+COCOAPODS: 1.11.3
