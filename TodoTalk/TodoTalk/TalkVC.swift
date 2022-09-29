@@ -1,9 +1,8 @@
 import UIKit
-import SafeAreaBrush
+// import SafeAreaBrush
 
 // 1. 채팅 table view 터치하면 키보드 내려가도록 처리.
 // 2. send 누르면 채팅 되도록 기능 추가.
-// * 바텀 컬러 처리해주는 코드는 빼서 다른 파일에 넣어놓기.
 
 class TalkVC: UIViewController {
     
@@ -59,40 +58,6 @@ class TalkVC: UIViewController {
         self.inputTextView.text = "."
         self.textViewDidChange(self.inputTextView)
         self.inputTextView.text = ""
-        
-        // 하단 safe area 색칠
-        // self.configureCustomView()
-    }
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        self.view.layoutMargins = .zero
-        self.view.layoutMarginsDidChange()
-    }
-    
-    
-    // 하단 safe area 색칠하기
-    private let myView = UIView()
-    private func configureCustomView() {
-        var bomttomSafeAreaInsets: CGFloat = 0.0
-        let scenes = UIApplication.shared.connectedScenes
-        let windowScene = scenes.first as? UIWindowScene
-        if let hasWindowScene = windowScene {
-            bomttomSafeAreaInsets = hasWindowScene.keyWindow?.safeAreaInsets.bottom ?? 0
-        }
-        
-        self.myView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(self.myView)
-        self.myView.backgroundColor = UIColor.init(red: 235/255, green: 236/255, blue: 240/255, alpha: 1.0)
-
-        NSLayoutConstraint.activate([
-            self.myView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            self.myView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            self.myView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            self.myView.heightAnchor.constraint(equalToConstant: bomttomSafeAreaInsets)
-            //self.myView.heightAnchor.constraint(equalToConstant: 50.0)
-        ])
-        
     }
     
     @objc func keyboardWillShow(noti: Notification) {
