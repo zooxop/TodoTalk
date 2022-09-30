@@ -1,7 +1,6 @@
 import UIKit
 // import SafeAreaBrush
 
-// 1. 채팅 table view 터치하면 키보드 내려가도록 처리.
 // 2. send 누르면 채팅 되도록 기능 추가.
 
 class TalkVC: UIViewController {
@@ -58,6 +57,15 @@ class TalkVC: UIViewController {
         self.inputTextView.text = "."
         self.textViewDidChange(self.inputTextView)
         self.inputTextView.text = ""
+        
+        // 제스쳐 핸들러 등록
+        // 화면 전체를 UIViewController로 덮어놨기 때문에, touchesBegan 만으로는 동작하지 않는다.
+        self.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(hideKeyboard)))
+    }
+    
+    // 화면 터치하면 키보드 내려가도록.
+    @objc func hideKeyboard() {
+        self.view.endEditing(true)
     }
     
     @objc func keyboardWillShow(noti: Notification) {
@@ -117,7 +125,6 @@ extension TalkVC: UITableViewDelegate, UITableViewDataSource {
         
         return cell
     }
-    
 }
 
 extension TalkVC: UITextViewDelegate {
