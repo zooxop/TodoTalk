@@ -39,7 +39,8 @@ class TalkVC: UIViewController {
     var talk: TodoTalk!
     
     lazy var talkContents: [TalkContents]! = {
-        return self.talk.joinTalkId?.array as! [TalkContents]
+        let contents = self.talk.joinTalkId?.array as! [TalkContents]
+        return contents.reversed()
     }()
     
     override func viewDidLoad() {
@@ -103,8 +104,13 @@ class TalkVC: UIViewController {
         }
     }
     
+    // 전송 버튼 이벤트
     @IBAction func saveTalkContent(_ sender: Any) {
-        CoredataManager.shared.insertTalkContents(todoTalk: self.talk, content: "test")
+        if let inputText = self.inputTextView.text {
+            CoredataManager.shared.insertTalkContents(todoTalk: self.talk, content: inputText)
+            self.inputTextView.text = ""
+            self.textViewDidChange(self.inputTextView)
+        }
     }
 }
 

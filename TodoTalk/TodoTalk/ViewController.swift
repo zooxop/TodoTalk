@@ -147,7 +147,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // cell 클릭 이벤트
-        // Talk 화면으로 넘어가는 코딩 필요.
         let talkVC = TalkVC.init(nibName: "TalkVC", bundle: nil)
         
         talkVC.modalPresentationStyle = .fullScreen
