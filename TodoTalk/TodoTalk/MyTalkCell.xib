@@ -18,19 +18,19 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <stackView opaque="NO" contentMode="scaleToFill" alignment="bottom" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="c1V-2I-GiI">
-                        <rect key="frame" x="40" y="10" width="376" height="145"/>
+                        <rect key="frame" x="40" y="1" width="376" height="163"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="752" text="2022.01.01" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dCM-3q-BOR">
-                                <rect key="frame" x="0.0" y="131.5" width="57" height="13.5"/>
+                                <rect key="frame" x="0.0" y="149.5" width="57" height="13.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DYI-WM-Y3T">
-                                <rect key="frame" x="67" y="0.0" width="309" height="145"/>
+                                <rect key="frame" x="67" y="0.0" width="309" height="163"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" scrollEnabled="NO" text="sdasd asd sad sad sad sad asd asdasd as das d asd asd asd asdsa asd sad asd asd asd sadasd sa" translatesAutoresizingMaskIntoConstraints="NO" id="8wP-EO-G2G">
-                                        <rect key="frame" x="5" y="5" width="299" height="135"/>
+                                        <rect key="frame" x="5" y="5" width="299" height="153"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="15" id="azw-7g-Qdu"/>
                                         </constraints>
@@ -57,15 +57,17 @@
                 <constraints>
                     <constraint firstItem="c1V-2I-GiI" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="40" id="4aE-ml-S4h"/>
                     <constraint firstAttribute="trailing" secondItem="c1V-2I-GiI" secondAttribute="trailing" constant="10" id="Dwt-BZ-Xl3"/>
-                    <constraint firstAttribute="bottom" secondItem="c1V-2I-GiI" secondAttribute="bottom" constant="10" id="KQg-kU-06H"/>
-                    <constraint firstItem="c1V-2I-GiI" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="sX2-Nj-0x4"/>
+                    <constraint firstAttribute="bottom" secondItem="c1V-2I-GiI" secondAttribute="bottom" constant="1" id="KQg-kU-06H"/>
+                    <constraint firstItem="c1V-2I-GiI" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="1" id="sX2-Nj-0x4"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="bgView" destination="DYI-WM-Y3T" id="QIb-HE-4Sw"/>
+                <outlet property="bottomSpace" destination="KQg-kU-06H" id="YqF-ri-cx3"/>
                 <outlet property="contentTextView" destination="8wP-EO-G2G" id="HTb-NR-tTy"/>
                 <outlet property="dateLabel" destination="dCM-3q-BOR" id="csE-Ft-wmJ"/>
+                <outlet property="topSpace" destination="sX2-Nj-0x4" id="Ra6-eK-BkW"/>
             </connections>
             <point key="canvasLocation" x="208.69565217391306" y="41.852678571428569"/>
         </tableViewCell>

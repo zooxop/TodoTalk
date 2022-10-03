@@ -1,11 +1,19 @@
 import UIKit
 // import SafeAreaBrush
+// 1. 내부 텍스트 뷰 read only로 설정
+// 2. 다크모드 대응
+// 3. 길게 눌렀을 때, 완료 처리 할 수 있도록.
+// - 말풍선 길게 눌렀을 때 팝업(모달) 띄우는 방법 찾아보기
 
-// 2. send 누르면 채팅 되도록 기능 추가.
+protocol TalkVCDelegate: AnyObject {
+    func didFinish()
+}
 
 class TalkVC: UIViewController {
     
     let bottomColor: UIColor = UIColor.init(red: 235/255, green: 236/255, blue: 240/255, alpha: 1.0)
+    
+    weak var delegate: TalkVCDelegate?
     
     @IBOutlet weak var inputBGView: UIView! {
         didSet {
@@ -87,6 +95,8 @@ class TalkVC: UIViewController {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardDidShowNotification, object: nil)
+        
+        self.delegate?.didFinish()
     }
     
     // 화면 터치하면 키보드 내려가도록.
@@ -147,11 +157,13 @@ class TalkVC: UIViewController {
             
             self.textViewDidChange(self.inputTextView)
             
+//            let lastIndexPath = IndexPath(row: (self.talkContents.count - 1), section: 0)
+//
+//            contentsTableView.insertRows(at: [lastIndexPath], with: .none)
+//            contentsTableView.scrollToRow(at: lastIndexPath, at: UITableView.ScrollPosition.bottom, animated: true)
+            self.contentsTableView.reloadData()
             let lastIndexPath = IndexPath(row: (self.talkContents.count - 1), section: 0)
-
-            contentsTableView.insertRows(at: [lastIndexPath], with: .none)
             contentsTableView.scrollToRow(at: lastIndexPath, at: UITableView.ScrollPosition.bottom, animated: true)
-            
         }
     }
 }
@@ -169,7 +181,20 @@ extension TalkVC: UITableViewDelegate, UITableViewDataSource {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy.MM.dd"
         let sendDateString = dateFormatter.string(from: self.talkContents[indexPath.row].sendDate!)
-        cell.dateLabel.text = sendDateString
+        if indexPath.row < self.talkContents.count - 1 {
+            let nextContentDateString = dateFormatter.string(from: self.talkContents[indexPath.row+1].sendDate!)
+            // 바로 다음 Content와 날짜가 같으면 표시하지 않는다.
+            if sendDateString != nextContentDateString {
+                cell.dateLabel.text = sendDateString
+                cell.bottomSpace.constant = 10  // 간격 조정
+            } else {
+                cell.dateLabel.text?.removeAll()
+                
+                //cell.topSpace.constant = 1
+            }
+        } else {
+            cell.dateLabel.text = sendDateString
+        }
         
         return cell
     }

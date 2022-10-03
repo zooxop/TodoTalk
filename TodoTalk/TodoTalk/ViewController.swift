@@ -2,8 +2,10 @@
 // calendar
 
 // To-do:
-// 1. TalkVC 키보드 관련 작업 마무리하기
-// 2. 말풍선 길게 눌렀을 때 팝업(모달) 띄우는 방법 찾아보기
+// 1. 패턴 적용
+// - BaseViewController
+// - 코드 정리
+// - MVC / MVVM
 
 
 import UIKit
@@ -39,7 +41,6 @@ class ViewController: UIViewController {
     func makeNavigationBar() {
         let item = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(presentAddTalkVC))
         self.navigationItem.rightBarButtonItem = item
-        
     }
     
     @objc func presentAddTalkVC() {
@@ -50,7 +51,7 @@ class ViewController: UIViewController {
     }
     
     func fetchTodoTalks() {
-        self.todoTalks = CoredataManager.shared.getTodoTalks(ascending: false, isFinished: false)
+        self.todoTalks = CoredataManager.shared.getTodoTalks(ascending: true, isFinished: false)
     }
 
 }
@@ -63,19 +64,27 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoTalkCell", for: indexPath) as! TodoTalkCell
         
+        // 마지막 content(채팅) 내용이 보이게.
         cell.todoTitleLabel.text = todoTalks[indexPath.row].title
-        // cell.todoContentLabel.text = todoTalks[indexPath.row].  // 마지막 채팅 내용이 보여야 함
-        if let hasDescription = todoTalks[indexPath.row].selectedDate?.description {
-            cell.todoContentLabel.text = hasDescription
-            if cell.todoContentLabel.countCurrentLines() == 1 {
-                cell.todoContentLabel.text = hasDescription + "\n"
+        if let contents = self.todoTalks[indexPath.row].joinTalkId?.array as? [TalkContents] {
+            if let talkContents = contents.first?.content {
+                cell.todoContentLabel.text = talkContents.description
+                if cell.todoContentLabel.countCurrentLines() == 1 {
+                    cell.todoContentLabel.text = talkContents + "\n"
+                }
+            } else {
+                cell.todoContentLabel.text = " \n"
             }
         } else {
             cell.todoContentLabel.text = " \n"
         }
-        
+
         cell.dateCheckView.layer.cornerRadius = cell.dateCheckView.bounds.height / 2
         cell.dateCheckView.layer.borderWidth = 0
+        
+        for subView in cell.dateCheckView.subviews {
+            subView.removeFromSuperview()
+        }
 
         
         if todoTalks[indexPath.row].isUseDate {
@@ -151,6 +160,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         
         talkVC.modalPresentationStyle = .fullScreen
         talkVC.talk = self.todoTalks[indexPath.row]
+        talkVC.delegate = self
         tableView.deselectRow(at: indexPath, animated: true)
         
         self.navigationController?.pushViewController(talkVC, animated: true)
@@ -184,6 +194,11 @@ extension ViewController: AddTalkVCDelegate {
     }
 }
 
+extension ViewController: TalkVCDelegate {
+    func didFinish() {
+        self.talkTableView.reloadData()
+    }
+}
 
 extension UILabel {
 

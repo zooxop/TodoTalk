@@ -2,6 +2,9 @@ import UIKit
 
 class MyTalkCell: UITableViewCell {
 
+    @IBOutlet weak var topSpace: NSLayoutConstraint!
+    @IBOutlet weak var bottomSpace: NSLayoutConstraint!
+    
     @IBOutlet weak var bgView: UIView! {
         didSet {
             bgView.backgroundColor = .systemYellow
