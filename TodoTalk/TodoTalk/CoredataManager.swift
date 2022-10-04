@@ -34,7 +34,7 @@ class CoredataManager {
     }
     
     // TalkContents 완료 처리
-    func updateTalkContentsDelete(talkContents: TalkContents, isFinished: Bool) {
+    func updateTalkContentsFinished(talkContents: TalkContents, isFinished: Bool) {
         guard let hasUUID = talkContents.uuid else {
             return
         }

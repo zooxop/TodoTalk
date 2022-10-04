@@ -159,10 +159,6 @@ class TalkVC: UIViewController {
             
             self.textViewDidChange(self.inputTextView)
             
-//            let lastIndexPath = IndexPath(row: (self.talkContents.count - 1), section: 0)
-//
-//            contentsTableView.insertRows(at: [lastIndexPath], with: .none)
-//            contentsTableView.scrollToRow(at: lastIndexPath, at: UITableView.ScrollPosition.bottom, animated: true)
             self.contentsTableView.reloadData()
             let lastIndexPath = IndexPath(row: (self.talkContents.count - 1), section: 0)
             contentsTableView.scrollToRow(at: lastIndexPath, at: UITableView.ScrollPosition.bottom, animated: true)
@@ -204,7 +200,6 @@ extension TalkVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         let deleteContent = UIContextualAction(style: .normal, title: "삭제") { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
-            // CoredataManager.updateTalkContents( talkContents[indexPath.row])
             CoredataManager.shared.updateTalkContentsDelete(talkContents: self.talkContents[indexPath.row], isDeletedContent: true)
             self.talkContents.remove(at: indexPath.row)
             self.contentsTableView.deleteRows(at: [indexPath], with: .fade)
@@ -213,7 +208,27 @@ extension TalkVC: UITableViewDelegate, UITableViewDataSource {
         
         deleteContent.backgroundColor = .systemRed
         
-        return UISwipeActionsConfiguration(actions: [deleteContent])
+        var finishedButtonText = ""
+        var isFinished = false
+        var finishedColor: UIColor
+        if self.talkContents[indexPath.row].isFinished == true {
+            isFinished = true
+            finishedButtonText = "취소"
+            finishedColor = .systemGreen
+        } else {
+            isFinished = false
+            finishedButtonText = "완료"
+            finishedColor = .systemBlue
+        }
+        
+        let finishContent = UIContextualAction(style: .normal, title: finishedButtonText) { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
+            CoredataManager.shared.updateTalkContentsFinished(talkContents: self.talkContents[indexPath.row], isFinished: !isFinished)
+            
+            success(true)
+        }
+        finishContent.backgroundColor = finishedColor
+        
+        return UISwipeActionsConfiguration(actions: [deleteContent, finishContent])
     }
   
 }
