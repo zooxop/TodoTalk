@@ -1,9 +1,8 @@
 import UIKit
-// import SafeAreaBrush
-// 1. 내부 텍스트 뷰 read only로 설정
+import CoreData
+
 // 2. 다크모드 대응
-// 3. 길게 눌렀을 때, 완료 처리 할 수 있도록.
-// - 말풍선 길게 눌렀을 때 팝업(모달) 띄우는 방법 찾아보기
+// 3. 완료처리 했을 때 옆에 보여줄 똥그라미 추가해주기
 
 protocol TalkVCDelegate: AnyObject {
     func didFinish()
@@ -49,7 +48,7 @@ class TalkVC: UIViewController {
     
     func loadTalkContents() {
         let contents = self.talk.joinTalkId?.array as! [TalkContents]
-        talkContents = contents.reversed()
+        talkContents = contents.reversed().filter { $0.isDeletedContent == false }
     }
     
     func scrollToBottom(animated: Bool) {
@@ -83,12 +82,15 @@ class TalkVC: UIViewController {
         // 화면 전체를 UIViewController로 덮어놨기 때문에, touchesBegan 만으로는 동작하지 않는다.
         self.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(hideKeyboard)))
         
+        // 맨 아래로 스크롤
         self.scrollToBottom(animated: false)
         
+        // 키보드 올라올때/내려올때 bottomAcnhor autolayout 활성화
         self.contentsTableView.bottomAnchor.constraint(equalTo: self.view.keyboardLayoutGuide.topAnchor).isActive = true
 
+        
     }
-    
+        
     // Observer 해제
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -190,7 +192,6 @@ extension TalkVC: UITableViewDelegate, UITableViewDataSource {
             } else {
                 cell.dateLabel.text?.removeAll()
                 
-                //cell.topSpace.constant = 1
             }
         } else {
             cell.dateLabel.text = sendDateString
@@ -198,6 +199,23 @@ extension TalkVC: UITableViewDelegate, UITableViewDataSource {
         
         return cell
     }
+    
+    // 오른쪽에 스와이프 버튼 만들기
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let deleteContent = UIContextualAction(style: .normal, title: "삭제") { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
+            // CoredataManager.updateTalkContents( talkContents[indexPath.row])
+            CoredataManager.shared.updateTalkContentsDelete(talkContents: self.talkContents[indexPath.row], isDeletedContent: true)
+            self.talkContents.remove(at: indexPath.row)
+            self.contentsTableView.deleteRows(at: [indexPath], with: .fade)
+            success(true)
+        }
+        
+        deleteContent.backgroundColor = .systemRed
+        
+        return UISwipeActionsConfiguration(actions: [deleteContent])
+    }
+  
 }
 
 extension TalkVC: UITextViewDelegate {

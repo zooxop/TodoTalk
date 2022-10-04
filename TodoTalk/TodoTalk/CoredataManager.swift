@@ -7,6 +7,56 @@ class CoredataManager {
     
     let appDelegate: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
     lazy var context = appDelegate?.persistentContainer.viewContext
+    
+    // TalkContents 삭제 처리
+    func updateTalkContentsDelete(talkContents: TalkContents, isDeletedContent: Bool) {
+        guard let hasUUID = talkContents.uuid else {
+            return
+        }
+        
+        let fetchRequest: NSFetchRequest<TalkContents> = TalkContents.fetchRequest()
+        let predicate = NSPredicate(format: "uuid = %@", hasUUID as CVarArg)
+        
+        fetchRequest.predicate = predicate
+        
+        if let context = context {
+            do {
+                let loadedData = try context.fetch(fetchRequest)
+                
+                loadedData.first?.isDeletedContent = isDeletedContent
+                
+                appDelegate?.saveContext()
+                
+            } catch let error as NSError {
+                print("update failed: \(error), \(error.userInfo)")
+            }
+        }
+    }
+    
+    // TalkContents 완료 처리
+    func updateTalkContentsDelete(talkContents: TalkContents, isFinished: Bool) {
+        guard let hasUUID = talkContents.uuid else {
+            return
+        }
+        
+        let fetchRequest: NSFetchRequest<TalkContents> = TalkContents.fetchRequest()
+        let predicate = NSPredicate(format: "uuid = %@", hasUUID as CVarArg)
+        
+        fetchRequest.predicate = predicate
+        
+        if let context = context {
+            do {
+                let loadedData = try context.fetch(fetchRequest)
+                
+                loadedData.first?.isFinished = isFinished
+                
+                appDelegate?.saveContext()
+                
+            } catch let error as NSError {
+                print("update failed: \(error), \(error.userInfo)")
+            }
+        }
+    }
 
     // 신규 TalkContents 생성하기
     func insertTalkContents(todoTalk: TodoTalk, content: String) {
@@ -22,6 +72,8 @@ class CoredataManager {
             object.uuid = UUID()
             object.content = content
             object.sendDate = Date()
+            object.isFinished = false
+            object.isDeletedContent = false
             
             todoTalk.insertIntoJoinTalkId(object, at: 0)
             
@@ -101,6 +153,5 @@ class CoredataManager {
                 print("update failed: \(error), \(error.userInfo)")
             }
         }
-        
     }
 }

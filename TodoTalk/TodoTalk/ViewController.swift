@@ -10,6 +10,7 @@
 
 import UIKit
 import CoreData
+import SafeAreaBrush
 
 class ViewController: UIViewController {
     
@@ -36,11 +37,18 @@ class ViewController: UIViewController {
         
         self.fetchTodoTalks()  // coredata - 데이터 가져오기
         self.talkTableView.reloadData()
+        
+        // Talk 화면으로 넘어갈 때, 뒤로가기 버튼에 붙어있는 title 지우기.
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     func makeNavigationBar() {
         let item = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(presentAddTalkVC))
         self.navigationItem.rightBarButtonItem = item
+        // self.navigationController?.navigationBar.prefersLargeTitles = true
+        
+//        self.navigationController?.navigationBar.backgroundColor = .white
+//        fillSafeArea(position: .top, color: .white)
     }
     
     @objc func presentAddTalkVC() {
@@ -161,6 +169,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         talkVC.modalPresentationStyle = .fullScreen
         talkVC.talk = self.todoTalks[indexPath.row]
         talkVC.delegate = self
+        talkVC.title = self.todoTalks[indexPath.row].title
+        
         tableView.deselectRow(at: indexPath, animated: true)
         
         self.navigationController?.pushViewController(talkVC, animated: true)

@@ -12,7 +12,11 @@ class MyTalkCell: UITableViewCell {
         }
     }
     
-    @IBOutlet weak var contentTextView: UITextView!
+    @IBOutlet weak var contentTextView: UITextView! {
+        didSet {
+            contentTextView.isEditable = false  // read only
+        }
+    }
     @IBOutlet weak var dateLabel: UILabel!
     
     override func awakeFromNib() {
