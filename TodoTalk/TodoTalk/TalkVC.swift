@@ -2,7 +2,6 @@ import UIKit
 import CoreData
 
 // 2. 다크모드 대응
-// 3. 완료처리 했을 때 옆에 보여줄 똥그라미 추가해주기
 
 protocol TalkVCDelegate: AnyObject {
     func didFinish()
@@ -187,11 +186,16 @@ extension TalkVC: UITableViewDelegate, UITableViewDataSource {
                 cell.bottomSpace.constant = 10  // 간격 조정
             } else {
                 cell.dateLabel.text?.removeAll()
-                
+            }
+            
+            if indexPath.row == 0 {
+                cell.topSpace.constant = 5
             }
         } else {
             cell.dateLabel.text = sendDateString
         }
+        
+        cell.isFinishedMark.isHidden = !self.talkContents[indexPath.row].isFinished
         
         return cell
     }
@@ -222,6 +226,12 @@ extension TalkVC: UITableViewDelegate, UITableViewDataSource {
         }
         
         let finishContent = UIContextualAction(style: .normal, title: finishedButtonText) { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
+            guard let hasCell = self.contentsTableView.cellForRow(at: indexPath) as? MyTalkCell else {
+                return
+            }
+            
+            hasCell.isFinishedMark.layer.isHidden = isFinished
+            
             CoredataManager.shared.updateTalkContentsFinished(talkContents: self.talkContents[indexPath.row], isFinished: !isFinished)
             
             success(true)
