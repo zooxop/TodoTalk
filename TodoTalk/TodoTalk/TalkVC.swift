@@ -7,20 +7,18 @@ protocol TalkVCDelegate: AnyObject {
     func didFinish()
 }
 
-class TalkVC: UIViewController {
-    
-    let bottomColor: UIColor = UIColor.init(red: 235/255, green: 236/255, blue: 240/255, alpha: 1.0)
+class TalkVC: BaseViewController {
     
     weak var delegate: TalkVCDelegate?
     
     @IBOutlet weak var inputBGView: UIView! {
         didSet {
-            inputBGView.backgroundColor = bottomColor
+            inputBGView.backgroundColor = INPUTBGCOLOR
         }
     }
     @IBOutlet weak var bottomSafeAreaView: UIView! {
         didSet {
-            bottomSafeAreaView.backgroundColor = bottomColor
+            bottomSafeAreaView.backgroundColor = INPUTBGCOLOR
         }
     }
     @IBOutlet weak var contentsTableView: UITableView! {
@@ -34,11 +32,7 @@ class TalkVC: UIViewController {
         }
     }
     
-    @IBOutlet weak var inputTextView: UITextView! {
-        didSet {
-            inputTextView.delegate = self
-        }
-    }
+    @IBOutlet weak var inputTextView: UITextView!
     
     @IBOutlet weak var inputViewBottomMargin: NSLayoutConstraint!
     
@@ -100,14 +94,16 @@ class TalkVC: UIViewController {
         self.delegate?.didFinish()
     }
     
+    // 키보드가 다 올라온 다음, View를 최하단으로 Scroll
+    @objc func keyboardDidShow(noti: Notification) {
+        self.contentsTableView.scrollToBottom(animated: true, count: self.talkContents.count)
+    }
+    
     // 화면 터치하면 키보드 내려가도록.
     @objc func hideKeyboard() {
         self.view.endEditing(true)
     }
     
-    @objc func keyboardDidShow(noti: Notification) {
-        self.scrollToBottom(animated: true)
-    }
     
     @objc func keyboardWillShow(noti: Notification) {
         // 키보드의 frame 가져오기
@@ -192,6 +188,10 @@ extension TalkVC: UITableViewDelegate, UITableViewDataSource {
                 cell.topSpace.constant = 5
             }
         } else {
+            if indexPath.row == 0 {
+                cell.topSpace.constant = 5
+            }
+            
             cell.dateLabel.text = sendDateString
         }
         
@@ -241,21 +241,4 @@ extension TalkVC: UITableViewDelegate, UITableViewDataSource {
         return UISwipeActionsConfiguration(actions: [deleteContent, finishContent])
     }
   
-}
-
-extension TalkVC: UITextViewDelegate {
-    func textViewDidChange(_ textView: UITextView) {
-        let size = CGSize(width: view.frame.width, height: .infinity)
-        let estimatedSize = textView.sizeThatFits(size)
-        
-        textView.constraints.forEach { constraint in
-            if estimatedSize.height <= 30  || estimatedSize.height >= 100 {
-                
-            } else {
-                if constraint.firstAttribute == .height {
-                    constraint.constant = estimatedSize.height
-                }
-            }
-        }
-    }
 }
