@@ -1,16 +1,24 @@
 PODS:
   - SafeAreaBrush (1.0.3)
+  - SnapKit (5.6.0)
+  - Then (3.0.0)
 
 DEPENDENCIES:
   - SafeAreaBrush
+  - SnapKit (~> 5.6.0)
+  - Then
 
 SPEC REPOS:
   trunk:
     - SafeAreaBrush
+    - SnapKit
+    - Then
 
 SPEC CHECKSUMS:
   SafeAreaBrush: 13ada0b25dcfdde8f110f46b1d34dc017b01b12c
+  SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
+  Then: 844265ae87834bbe1147d91d5d41a404da2ec27d
 
-PODFILE CHECKSUM: cef93f1481a75a55317afb47d9fec06a8d8826a4
+PODFILE CHECKSUM: 1db4b8f9eea12945ec639b32fe352210446b5718
 
 COCOAPODS: 1.11.3

@@ -7,5 +7,7 @@ target 'TodoTalk' do
 
   # Pods for TodoTalk
   pod 'SafeAreaBrush'
+  pod 'Then'
+  pod 'SnapKit', '~> 5.6.0'
 
 end
