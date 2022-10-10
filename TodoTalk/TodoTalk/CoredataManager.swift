@@ -5,6 +5,7 @@ class CoredataManager {
     // singleton
     static let shared: CoredataManager = CoredataManager()
     
+    // App delegate 접근
     let appDelegate: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
     lazy var context = appDelegate?.persistentContainer.viewContext
     

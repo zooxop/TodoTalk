@@ -1,11 +1,10 @@
 import UIKit
-import CoreData
 
 protocol AddTalkVCDelegate: AnyObject {
     func didFinishSaveData()
 }
 
-class AddTalkVC: UIViewController {
+class AddTalkVC: BaseViewController {
 
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var saveButton: UIButton!
@@ -62,39 +61,4 @@ class AddTalkVC: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-}
-
-extension AddTalkVC: UITextFieldDelegate {
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder() // TextField 비활성화
-        return true
-    }
-}
-
-extension UITextField {
-    
-    func setBottomBorder() {
-        // viewDidLayoutSubViews()가 여러번 실행되므로, 제약조건 걸어놓음.
-        if self.borderStyle != .none {
-            self.borderStyle = .none
-            let border = CALayer()
-            border.frame = CGRect(x: 0, y: self.frame.size.height-1, width: self.frame.width, height: 1)
-            border.backgroundColor = UIColor.darkGray.cgColor
-            self.layer.addSublayer(border)
-        }
-    }
-}
-
-extension UIButton {
-    
-    func setBorderRoundly(color: UIColor) {
-        self.backgroundColor = color.withAlphaComponent(0.3)
-        self.layer.cornerRadius = 10
-        self.layer.borderWidth = 0
-        self.layer.borderColor = .none
-    }
 }

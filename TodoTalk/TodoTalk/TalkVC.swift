@@ -1,5 +1,4 @@
 import UIKit
-import CoreData
 
 // 2. 다크모드 대응
 
@@ -44,18 +43,8 @@ class TalkVC: BaseViewController {
         talkContents = contents.reversed().filter { $0.isDeletedContent == false }
     }
     
-    func scrollToBottom(animated: Bool) {
-        let lastIndexPath = IndexPath(row: (self.talkContents.count - 1), section: 0)
-        if lastIndexPath[1] >= 0 {
-            DispatchQueue.main.async {
-                self.contentsTableView.scrollToRow(at: lastIndexPath, at: UITableView.ScrollPosition.bottom, animated: animated)
-            }
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.loadTalkContents()
         // 키보드 관련 옵저버 - 상태를 알려줌
         // - 키보드가 올라올 때
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -64,6 +53,10 @@ class TalkVC: BaseViewController {
         // - 키보드가 완전히 올라온 뒤
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow), name: UIResponder.keyboardDidShowNotification, object: nil)
         
+        // 제스쳐 핸들러 등록
+        // 화면 전체를 UIViewController로 덮어놨기 때문에, touchesBegan 만으로는 동작하지 않는다.
+        self.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(hideKeyboard)))
+        
         // default height를 고정값으로 처리할 수 없음. (기기마다 폰트 사이즈가 다를 수 있으므로.)
         // -> 한 글자 미리 입력해놓고, textview 높이 조절 이벤트를 호출.
         // 이벤트가 끝나면 다시 text를 클리어 해준다.
@@ -71,16 +64,11 @@ class TalkVC: BaseViewController {
         self.textViewDidChange(self.inputTextView)
         self.inputTextView.text = ""
         
-        // 제스쳐 핸들러 등록
-        // 화면 전체를 UIViewController로 덮어놨기 때문에, touchesBegan 만으로는 동작하지 않는다.
-        self.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(hideKeyboard)))
+        // 대화내용(TalkContents) 불러오기
+        self.loadTalkContents()
         
         // 맨 아래로 스크롤
-        self.scrollToBottom(animated: false)
-        
-        // 키보드 올라올때/내려올때 bottomAcnhor autolayout 활성화
-        self.contentsTableView.bottomAnchor.constraint(equalTo: self.view.keyboardLayoutGuide.topAnchor).isActive = true
-
+        self.contentsTableView.scrollToBottom(animated: false, count: self.talkContents.count)
         
     }
         
@@ -91,6 +79,7 @@ class TalkVC: BaseViewController {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardDidShowNotification, object: nil)
         
+        // 이전 화면 갱신
         self.delegate?.didFinish()
     }
     
@@ -146,7 +135,7 @@ class TalkVC: BaseViewController {
     
     // 전송 버튼 이벤트
     @IBAction func saveTalkContent(_ sender: Any) {
-        
+        // TextView clear, insert Core Data, scroll to bottom
         if let inputText = self.inputTextView.text {
             CoredataManager.shared.insertTalkContents(todoTalk: self.talk, content: inputText)
             self.loadTalkContents()
@@ -171,11 +160,9 @@ extension TalkVC: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyTalkCell", for: indexPath) as! MyTalkCell
         cell.contentTextView.text = self.talkContents[indexPath.row].content
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy.MM.dd"
-        let sendDateString = dateFormatter.string(from: self.talkContents[indexPath.row].sendDate!)
+        let sendDateString = self.tcDateFormatter.string(from: self.talkContents[indexPath.row].sendDate!)
         if indexPath.row < self.talkContents.count - 1 {
-            let nextContentDateString = dateFormatter.string(from: self.talkContents[indexPath.row+1].sendDate!)
+            let nextContentDateString = self.tcDateFormatter.string(from: self.talkContents[indexPath.row+1].sendDate!)
             // 바로 다음 Content와 날짜가 같으면 표시하지 않는다.
             if sendDateString != nextContentDateString {
                 cell.dateLabel.text = sendDateString
@@ -183,18 +170,15 @@ extension TalkVC: UITableViewDelegate, UITableViewDataSource {
             } else {
                 cell.dateLabel.text?.removeAll()
             }
-            
-            if indexPath.row == 0 {
-                cell.topSpace.constant = 5
-            }
         } else {
-            if indexPath.row == 0 {
-                cell.topSpace.constant = 5
-            }
-            
             cell.dateLabel.text = sendDateString
         }
         
+        if indexPath.row == 0 {
+            cell.topSpace.constant = 5
+        }
+        
+        // 완료 표시 마크
         cell.isFinishedMark.isHidden = !self.talkContents[indexPath.row].isFinished
         
         return cell
