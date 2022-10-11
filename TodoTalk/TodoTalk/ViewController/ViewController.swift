@@ -100,7 +100,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             cell.dateCheckView.backgroundColor = DATEVIEWCOLOR
             
             let monthLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 100)).then {
-                $0.translatesAutoresizingMaskIntoConstraints = false
                 $0.text = monthString
                 $0.textColor = .white
                 $0.textAlignment = .center
@@ -108,7 +107,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             }
             
             let dateLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 100)).then {
-                $0.translatesAutoresizingMaskIntoConstraints = false
                 $0.text = dateString
                 $0.textColor = .white
                 $0.textAlignment = .center
@@ -118,16 +116,17 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             cell.dateCheckView.addSubview(monthLabel)
             cell.dateCheckView.addSubview(dateLabel)
             
+            // margin이 적용되어 있는 layout으로 가져오기
             let margineGuide = cell.dateCheckView.layoutMarginsGuide
-            NSLayoutConstraint.activate([
-                monthLabel.topAnchor.constraint(equalTo: margineGuide.topAnchor, constant: 0),
-                monthLabel.leadingAnchor.constraint(equalTo: margineGuide.leadingAnchor),
-                monthLabel.trailingAnchor.constraint(equalTo: margineGuide.trailingAnchor),
-                
-                dateLabel.topAnchor.constraint(equalTo: monthLabel.topAnchor, constant: 20),
-                dateLabel.leadingAnchor.constraint(equalTo: margineGuide.leadingAnchor),
-                dateLabel.trailingAnchor.constraint(equalTo: margineGuide.trailingAnchor)
-            ])
+            
+            // SnapKit - Auto layout 적용
+            monthLabel.snp.makeConstraints { make in
+                make.top.leading.trailing.equalTo(margineGuide)
+            }
+            dateLabel.snp.makeConstraints { make in
+                make.top.equalTo(monthLabel.snp.top).offset(20)
+                make.leading.trailing.equalTo(margineGuide)
+            }
 
         } else {
             cell.dateCheckView.backgroundColor = CHECKMARKCOLOR
@@ -136,7 +135,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             let largeConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large)
             
             let myImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 100)).then {
-                $0.translatesAutoresizingMaskIntoConstraints = false
                 $0.image = UIImage(systemName: "checkmark", withConfiguration: largeConfig)
                 $0.tintColor = .white
                 $0.contentMode = .scaleAspectFit
@@ -144,11 +142,9 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             
             cell.dateCheckView.addSubview(myImageView)
             
-            myImageView.do {
-                $0.centerXAnchor.constraint(equalTo: cell.dateCheckView.centerXAnchor).isActive = true
-                $0.centerYAnchor.constraint(equalTo: cell.dateCheckView.centerYAnchor).isActive = true
+            myImageView.snp.makeConstraints { make in
+                make.center.equalToSuperview()  // 상위의 뷰와 x, y를 같게 해준다.
             }
-            
             
         }
         
