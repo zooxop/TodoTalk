@@ -35,9 +35,10 @@ class ViewController: BaseViewController {
     }
     
     @objc func presentAddTalkVC() {
-        let addTalkVC = AddTalkVC.init(nibName: "AddTalkVC", bundle: nil)
+        let addTalkVC = AddTalkVC.init(nibName: "AddTalkVC", bundle: nil).then {
+            $0.delegate = self
+        }
         
-        addTalkVC.delegate = self
         self.present(addTalkVC, animated: true, completion: nil)
     }
     
@@ -55,24 +56,27 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoTalkCell", for: indexPath) as! TodoTalkCell
         
-        // 마지막 content(채팅) 내용이 보이게.
-        cell.todoTitleLabel.text = todoTalks[indexPath.row].title
-        if let contents = self.todoTalks[indexPath.row].joinTalkId?.array as? [TalkContents] {
-            if let talkContents = contents.first?.content {
-                cell.todoContentLabel.text = talkContents.description
-                if cell.todoContentLabel.countCurrentLines() == 1 {
-                    cell.todoContentLabel.text = talkContents + "\n"
+        cell.do {
+            // 마지막 content(채팅) 내용이 보이게.
+            $0.todoTitleLabel.text = todoTalks[indexPath.row].title
+            $0.dateCheckView.layer.cornerRadius = $0.dateCheckView.bounds.height / 2
+            $0.dateCheckView.layer.borderWidth = 0
+            
+            if let contents = self.todoTalks[indexPath.row].joinTalkId?.array as? [TalkContents] {
+                if let talkContents = contents.first?.content {
+                    $0.todoContentLabel.text = talkContents.description
+                    if $0.todoContentLabel.countCurrentLines() == 1 {
+                        $0.todoContentLabel.text = talkContents + "\n"
+                    }
+                } else {
+                    $0.todoContentLabel.text = " \n"
                 }
             } else {
-                cell.todoContentLabel.text = " \n"
+                $0.todoContentLabel.text = " \n"
             }
-        } else {
-            cell.todoContentLabel.text = " \n"
         }
-
-        cell.dateCheckView.layer.cornerRadius = cell.dateCheckView.bounds.height / 2
-        cell.dateCheckView.layer.borderWidth = 0
         
+        // addSubView 해준 하위 View들을 삭제(초기화) 처리
         for subView in cell.dateCheckView.subviews {
             subView.removeFromSuperview()
         }
@@ -93,25 +97,26 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 dateString = dateFormatter.string(from: date)
             }
             
-            
             cell.dateCheckView.backgroundColor = DATEVIEWCOLOR
             
-            let monthLabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-            let dateLabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+            let monthLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 100)).then {
+                $0.translatesAutoresizingMaskIntoConstraints = false
+                $0.text = monthString
+                $0.textColor = .white
+                $0.textAlignment = .center
+                $0.font = UIFont.boldSystemFont(ofSize: 15)
+            }
+            
+            let dateLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 100)).then {
+                $0.translatesAutoresizingMaskIntoConstraints = false
+                $0.text = dateString
+                $0.textColor = .white
+                $0.textAlignment = .center
+                $0.font = UIFont.boldSystemFont(ofSize: 12)
+            }
+            
             cell.dateCheckView.addSubview(monthLabel)
             cell.dateCheckView.addSubview(dateLabel)
-            
-            monthLabel.translatesAutoresizingMaskIntoConstraints = false
-            monthLabel.text = monthString // "JUN"
-            monthLabel.textColor = .white
-            monthLabel.textAlignment = .center
-            monthLabel.font = UIFont.boldSystemFont(ofSize: 15)
-            
-            dateLabel.translatesAutoresizingMaskIntoConstraints = false
-            dateLabel.text = dateString // "17"
-            dateLabel.textColor = .white
-            dateLabel.textAlignment = .center
-            dateLabel.font = UIFont.boldSystemFont(ofSize: 12)
             
             let margineGuide = cell.dateCheckView.layoutMarginsGuide
             NSLayoutConstraint.activate([
@@ -129,16 +134,21 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             
             // 체크 표시 보여주기
             let largeConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large)
-            let myImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+            
+            let myImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 100)).then {
+                $0.translatesAutoresizingMaskIntoConstraints = false
+                $0.image = UIImage(systemName: "checkmark", withConfiguration: largeConfig)
+                $0.tintColor = .white
+                $0.contentMode = .scaleAspectFit
+            }
+            
             cell.dateCheckView.addSubview(myImageView)
             
-            myImageView.translatesAutoresizingMaskIntoConstraints = false
-            myImageView.image = UIImage(systemName: "checkmark", withConfiguration: largeConfig)
-            myImageView.tintColor = .white
+            myImageView.do {
+                $0.centerXAnchor.constraint(equalTo: cell.dateCheckView.centerXAnchor).isActive = true
+                $0.centerYAnchor.constraint(equalTo: cell.dateCheckView.centerYAnchor).isActive = true
+            }
             
-            myImageView.contentMode = .scaleAspectFit
-            myImageView.centerXAnchor.constraint(equalTo: cell.dateCheckView.centerXAnchor).isActive = true
-            myImageView.centerYAnchor.constraint(equalTo: cell.dateCheckView.centerYAnchor).isActive = true
             
         }
         
@@ -147,12 +157,12 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // cell 클릭 이벤트
-        let talkVC = TalkVC.init(nibName: "TalkVC", bundle: nil)
-        
-        talkVC.modalPresentationStyle = .fullScreen
-        talkVC.talk = self.todoTalks[indexPath.row]
-        talkVC.delegate = self
-        talkVC.title = self.todoTalks[indexPath.row].title
+        let talkVC = TalkVC.init(nibName: "TalkVC", bundle: nil).then {
+            $0.modalPresentationStyle = .fullScreen
+            $0.talk = self.todoTalks[indexPath.row]
+            $0.delegate = self
+            $0.title = self.todoTalks[indexPath.row].title
+        }
         
         tableView.deselectRow(at: indexPath, animated: true)
         

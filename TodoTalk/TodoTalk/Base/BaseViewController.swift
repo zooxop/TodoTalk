@@ -2,6 +2,7 @@ import UIKit
 import SafeAreaBrush
 import CoreData
 import Then
+import SnapKit
 
 class BaseViewController: UIViewController {
     
@@ -66,9 +67,10 @@ extension UITextField {
         // viewDidLayoutSubViews()가 여러번 실행되므로, 제약조건 걸어놓음.
         if self.borderStyle != .none {
             self.borderStyle = .none
-            let border = CALayer()
-            border.frame = CGRect(x: 0, y: self.frame.size.height-1, width: self.frame.width, height: 1)
-            border.backgroundColor = UIColor.darkGray.cgColor
+            let border = CALayer().then {
+                $0.frame = CGRect(x: 0, y: self.frame.size.height-1, width: self.frame.width, height: 1)
+                $0.backgroundColor = UIColor.darkGray.cgColor
+            }
             self.layer.addSublayer(border)
         }
     }
