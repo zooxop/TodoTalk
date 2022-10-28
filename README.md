@@ -16,6 +16,8 @@
 - UIKit
 - Core Data
 - Auto Layout
+- Then
+- SnapKit
 
 <br><br>
 
@@ -23,10 +25,10 @@
 
 ---
 
-- [ ]  BaseViewController 패턴을 적용하여, 중복 코드 제거 및 구조 개선하기
-- [ ]  SnapKit 라이브러리 적용 (Auto Layout 코드 간소화)
-- [ ]  Then 라이브러리 적용 (Code Base UI 작성시 코드 간소화 및 가독성 개선)
-- [ ]  소스코드 폴더 구조 수정
+- [x]  BaseViewController 패턴을 적용하여, 중복 코드 제거 및 구조 개선하기
+- [x]  SnapKit 라이브러리 적용 (Auto Layout 코드 간소화)
+- [x]  Then 라이브러리 적용 (Code Base UI 작성시 코드 간소화 및 가독성 개선)
+- [x]  소스코드 폴더 구조 수정
 - [ ]  앱 출시하기
 - [ ]  푸시 알람 기능 구현 (Alamofire)
     - [ ]  채팅방에 설정한 날짜에 알람 기능
